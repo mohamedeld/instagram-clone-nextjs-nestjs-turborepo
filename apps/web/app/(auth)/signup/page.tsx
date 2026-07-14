@@ -1,6 +1,6 @@
-import { SignForm } from "@/components/auth/sign-form";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import { SignUpForm } from "@/components/auth/signup-form";
 
 const SignUpPage = () => {
   return (
@@ -19,7 +19,7 @@ const SignUpPage = () => {
             Log in
           </Link>
         </p>
-        <SignForm />
+        <SignUpForm />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ import { Input } from "../ui/input";
 import { signupSchema, SignupSchema } from "@/schema/signup-schema";
 import { Button } from "../ui/button";
 
-export const SignForm = () => {
+export const SignUpForm = () => {
   const form = useForm<SignupSchema>({
     defaultValues: {
       name: "",
