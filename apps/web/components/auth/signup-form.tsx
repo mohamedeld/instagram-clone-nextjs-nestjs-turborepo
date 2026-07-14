@@ -9,8 +9,11 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { signupSchema, SignupSchema } from "@/schema/signup-schema";
 import { Button } from "../ui/button";
+import { authClient } from "@/lib/auth/client";
+import { useRouter } from "next/navigation";
 
 export const SignUpForm = () => {
+  const router = useRouter();
   const form = useForm<SignupSchema>({
     defaultValues: {
       name: "",
@@ -21,8 +24,24 @@ export const SignUpForm = () => {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = (data: SignupSchema) => {
-    console.log(data);
+  const onSubmit = async (data: SignupSchema) => {
+    try {
+      const res = await authClient.signUp.email({
+        name: data?.name,
+        email: data?.email,
+        password: data?.password,
+      });
+      if (res?.data) {
+        toast.success(
+          "Account created successfully! Please check your email to verify your account.",
+        );
+        router.push("/login");
+      } else {
+        toast.error(res?.error?.message);
+      }
+    } catch (error) {
+      toast.error("An error occurred while signing up. Please try again.");
+    }
   };
   const isLoading = form.formState.isSubmitting;
   return (
@@ -93,6 +112,7 @@ export const SignUpForm = () => {
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter your password"
                   autoComplete="off"
+                  type="password"
                 />
                 {fieldState.invalid && (
                   <FieldError
@@ -115,6 +135,7 @@ export const SignUpForm = () => {
                   aria-invalid={fieldState.invalid}
                   placeholder="Confirm your password"
                   autoComplete="off"
+                  type="password"
                 />
                 {fieldState.invalid && (
                   <FieldError
