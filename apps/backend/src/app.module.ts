@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TRPCModule } from 'nestjs-trpc';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { AuthGuard, AuthModule } from '@thallesp/nestjs-better-auth';
@@ -9,11 +10,15 @@ import { DATABASE_CONNECTION } from './database/database-connection';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { PostsModule } from './posts/posts.module';
+import { UsersModule } from './auth/users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
+    TRPCModule.forRoot({
+      basePath: '../../../packages/trpc/src/server',
+    }),
     AuthModule.forRootAsync({
       imports: [DatabaseModule, ConfigModule],
       useFactory: (database: NodePgDatabase, configService: ConfigService) => ({
@@ -31,6 +36,7 @@ import { PostsModule } from './posts/posts.module';
       inject: [DATABASE_CONNECTION, ConfigService],
     }),
     PostsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_GUARD, useClass: AuthGuard }],

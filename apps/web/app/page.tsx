@@ -1,4 +1,5 @@
 import { Feed } from "@/components/dashboard/feed";
+import { PhotoUpload } from "@/components/dashboard/photo-upload";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Stories } from "@/components/dashboard/stories";
 
@@ -16,6 +17,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <PhotoUpload />
     </div>
   );
 };
