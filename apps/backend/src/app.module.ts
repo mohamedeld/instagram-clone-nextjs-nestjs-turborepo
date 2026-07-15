@@ -8,6 +8,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { DATABASE_CONNECTION } from './database/database-connection';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AppController } from './app.controller';
       }),
       inject: [DATABASE_CONNECTION, ConfigService],
     }),
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_GUARD, useClass: AuthGuard }],
