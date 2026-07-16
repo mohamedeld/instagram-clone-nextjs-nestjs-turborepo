@@ -11,6 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './auth/users/users.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { UsersModule } from './auth/users/users.module';
     }),
     PostsModule,
     UsersModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_GUARD, useClass: AuthGuard }],

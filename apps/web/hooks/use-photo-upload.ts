@@ -40,6 +40,7 @@ export const usePhotoUpload = () => {
     }
 
     const { filename } = await uploadResponse.json();
+    console.log("Image uploaded successfully:", filename);
     //   await createPost.mutateAsync({
     //     image: filename,
     //     caption,
