@@ -3,7 +3,9 @@ import { PhotoUpload } from "@/components/dashboard/photo-upload";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Stories } from "@/components/dashboard/stories";
 
-const HomePage = () => {
+const HomePage = async () => {
+  // const posts = await trpcServer.postsRouter.finalAll.query();
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8">

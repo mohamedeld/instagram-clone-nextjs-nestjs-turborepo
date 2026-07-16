@@ -20,7 +20,7 @@ export class PostsService {
       .values({
         caption: createPostDto.caption,
         userId: userId,
-        image: '',
+        image: createPostDto.image,
         createdAt: new Date(),
         likes: 0,
       })

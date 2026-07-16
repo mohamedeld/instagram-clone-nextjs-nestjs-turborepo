@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { TrpcProvider } from "@/components/trpc/trpc-provider";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -40,7 +41,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <TrpcProvider>{children}</TrpcProvider>
         </ThemeProvider>
         <Toaster />
       </body>

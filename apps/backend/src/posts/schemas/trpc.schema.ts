@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const createPostSchema = z.object({
+  image: z.string().min(1, 'Image is required'),
   caption: z.string().max(2200),
 });
 

@@ -2,6 +2,7 @@ import { extname } from 'path';
 import { Request } from 'express';
 import { diskStorage, FileFilterCallback } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
+import { getUploadsImagesPath } from './uploads-path';
 
 export const editFileName = (
   req: Request,
@@ -29,7 +30,7 @@ export const fileFilter = (
 
 export const multerConfig = {
   storage: diskStorage({
-    destination: './uploads/images', // Directory where files will be stored
+    destination: getUploadsImagesPath(),
     filename: editFileName,
   }),
   fileFilter: fileFilter,

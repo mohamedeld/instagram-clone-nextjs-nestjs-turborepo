@@ -18,7 +18,7 @@ import { UploadModule } from './upload/upload.module';
     ConfigModule.forRoot(),
     DatabaseModule,
     TRPCModule.forRoot({
-      basePath: '../../../packages/trpc/src/server',
+      basePath: '/api/trpc',
     }),
     AuthModule.forRootAsync({
       imports: [DatabaseModule, ConfigModule],

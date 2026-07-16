@@ -12,7 +12,10 @@ export class PostsRouter {
     output: postSchema,
   })
   async create(@Input() createPostDto: CreatePostInput) {
-    return this.postsService.createPost(createPostDto, '123');
+    return this.postsService.createPost(
+      createPostDto,
+      'MBdOVLbgbDoWiRNAxjTezve2eI79sJ3B',
+    );
   }
 
   @Query({

@@ -1,4 +1,5 @@
 "use client";
+import { trpc } from "@/lib/trpc/client";
 import { useState } from "react";
 
 export const usePhotoUpload = () => {
@@ -8,6 +9,13 @@ export const usePhotoUpload = () => {
     selectedFile: null as File | null,
     isUploading: false,
     caption: "",
+  });
+  const utils = trpc.useUtils();
+  const createPost = trpc.postsRouter.create.useMutation({
+    onSuccess: () => {
+      setState((prev) => ({ ...prev, open: false }));
+      utils.postsRouter.finalAll.invalidate();
+    },
   });
   const handleFileSelect = (file: File) => {
     setState((prev) => ({ ...prev, selectedFile: file }));
@@ -40,11 +48,10 @@ export const usePhotoUpload = () => {
     }
 
     const { filename } = await uploadResponse.json();
-    console.log("Image uploaded successfully:", filename);
-    //   await createPost.mutateAsync({
-    //     image: filename,
-    //     caption,
-    //   });
+    await createPost.mutateAsync({
+      image: filename,
+      caption,
+    });
   };
 
   const handleUpload = async () => {
