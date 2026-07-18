@@ -15,6 +15,20 @@
       "when": 1784115145476,
       "tag": "0001_plain_zodiak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784367476547,
+      "tag": "0002_brief_karen_page",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784368398244,
+      "tag": "0003_tiresome_triton",
+      "breakpoints": true
     }
   ]
 }

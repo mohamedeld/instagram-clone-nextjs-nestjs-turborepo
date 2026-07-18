@@ -13,17 +13,20 @@ import { z } from "zod";
 
 const t = initTRPC.create();
 const publicProcedure = t.procedure;
-import { createPostSchema, postSchema } from "./C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/./schemas/trpc.schema.js";
+import { createPostSchema, postSchema, likePostSchema } from "./C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/./schemas/trpc.schema.js";
+import type { PostsRouter } from "./C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/posts.router.js";
 
 const appRouter = t.router({
   postsRouter: t.router({
     create: publicProcedure
       .input(createPostSchema)
-      .output(postSchema)
-      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<PostsRouter["create"]>>),
     finalAll: publicProcedure
       .output(z.array(postSchema))
-      .query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
+      .query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    likePost: publicProcedure
+      .input(likePostSchema)
+      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<PostsRouter["likePost"]>>)
     })
 });
 

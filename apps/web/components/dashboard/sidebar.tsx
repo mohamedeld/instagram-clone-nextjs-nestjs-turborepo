@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { Card } from "../ui/card";
 import { authClient } from "@/lib/auth/client";
 import { ModeToggle } from "../toggle-mode";
 import { Button } from "../ui/button";
 import { SuggestedUsers } from "./suggested-users";
+import AvatarUpload from "./avatar-photot";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 export const Sidebar = () => {
   const { data: session } = authClient.useSession();
@@ -19,13 +21,22 @@ export const Sidebar = () => {
     <div className="space-y-6">
       <Card className="p-4">
         <div className="flex items-center space-x-3 mb-4">
-          <Image
-            src="https://randomuser.me/api/portraits/men/1.jpg"
-            alt="User Avatar"
-            width={60}
-            height={60}
-            className="w-14 h-14 rounded-full object-cover"
-          />
+          <div className="relative">
+            {session?.user.image ? (
+              <Image
+                src={getImageUrl(session?.user.image) ?? ""}
+                alt="Your profile"
+                width={60}
+                height={60}
+                className="w-14 h-14 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+                <User className="w-4 h-4 text-muted-foreground" />
+              </div>
+            )}
+            <AvatarUpload />
+          </div>
           <div className="flex-1 min-w-0">
             <div className="font-semibold truncate">{session?.user?.email}</div>
             <div className="text-sm text-muted-foreground truncate">
@@ -46,6 +57,7 @@ export const Sidebar = () => {
           </div>
         </div>
       </Card>
+
       <SuggestedUsers />
     </div>
   );

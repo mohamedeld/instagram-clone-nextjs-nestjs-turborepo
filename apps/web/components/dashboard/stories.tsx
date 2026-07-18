@@ -1,6 +1,8 @@
-import React from "react";
-import { Card } from "../ui/card";
+"use client";
 import Image from "next/image";
+import { Card } from "../ui/card";
+import { authClient } from "@/lib/auth/client";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 type Story = {
   id: string;
@@ -9,11 +11,6 @@ type Story = {
 };
 
 const mockStories: Story[] = [
-  {
-    id: "1",
-    username: "john_doe",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
   {
     id: "2",
     username: "jane_doe",
@@ -42,9 +39,26 @@ const mockStories: Story[] = [
 ];
 
 export const Stories = () => {
+  const { data: session } = authClient.useSession();
   return (
     <Card className="p-4">
       <div className="flex space-x-4 overflow-x-auto  pb-2">
+        <div className="flex flex-col items-center space-y-1 shrink-0">
+          <div className="relative">
+            <div className="p-0.5 rounded-full bg-linear-to-tr from-yellow-400 to-fuchsia-600 bg-gray-200">
+              <Image
+                src={getImageUrl(session?.user?.image) ?? ""}
+                alt={session?.user?.name ?? "User avatar"}
+                width={64}
+                height={64}
+                className="w-16 h-16 rounded-full object-cover border-2 border-white"
+              />
+            </div>
+          </div>
+          <span className="text-xs text-center w-16 truncate">
+            {session?.user?.name ?? "User"}
+          </span>
+        </div>
         {mockStories?.map((story) => (
           <div
             key={story?.id}

@@ -3,26 +3,15 @@ import React from "react";
 import { Card } from "../ui/card";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { Heart, MessageCircle, User } from "lucide-react";
+import { MessageCircle, User } from "lucide-react";
 import { trpc } from "@/lib/trpc/client";
 import { getImageUrl } from "@/utils/getImageUrl";
-
-type PostProps = {
-  id: string;
-  user: {
-    username: string;
-    avatar: string;
-  };
-  image: string;
-  caption: string;
-  likes: number;
-  comments: number;
-  timestamp: string;
-};
+import { ToogleLiked } from "./ToogleLiked";
+import type { Post } from "@repo/trpc/schemas";
 
 export const Feed = () => {
   const posts = trpc.postsRouter.finalAll.useQuery();
-  const mockPosts: PostProps[] = posts?.data || [];
+  const mockPosts: Post[] = posts?.data || [];
 
   return (
     <div className="space-y-6">
@@ -68,14 +57,7 @@ export const Feed = () => {
             <div className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {}}
-                    className="p-0 h-auto"
-                  >
-                    <Heart className="size-6 text-foreground" />
-                  </Button>
+                  <ToogleLiked postId={post?.id} isLiked={post?.isLiked} />
                   <Button
                     variant="ghost"
                     size="sm"

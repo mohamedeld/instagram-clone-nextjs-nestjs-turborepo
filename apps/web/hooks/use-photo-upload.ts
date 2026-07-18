@@ -1,8 +1,12 @@
 "use client";
 import { trpc } from "@/lib/trpc/client";
 import { useState } from "react";
+import { toast } from "sonner";
 
-export const usePhotoUpload = () => {
+export const usePhotoUpload = (
+  onSubmit: (file: File, caption?: string) => Promise<void>,
+  isPost?: boolean,
+) => {
   const [state, setState] = useState({
     open: false,
     preview: "",
@@ -10,13 +14,7 @@ export const usePhotoUpload = () => {
     isUploading: false,
     caption: "",
   });
-  const utils = trpc.useUtils();
-  const createPost = trpc.postsRouter.create.useMutation({
-    onSuccess: () => {
-      setState((prev) => ({ ...prev, open: false }));
-      utils.postsRouter.finalAll.invalidate();
-    },
-  });
+
   const handleFileSelect = (file: File) => {
     setState((prev) => ({ ...prev, selectedFile: file }));
     const reader = new FileReader();
@@ -32,36 +30,19 @@ export const usePhotoUpload = () => {
       selectedFile: null,
       preview: "",
       caption: "",
+      open: false,
     }));
-  };
-  const handleCreatePost = async (file: File, caption: string) => {
-    const formData = new FormData();
-    formData.append("image", file);
-
-    const uploadResponse = await fetch("/api/upload/image", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!uploadResponse.ok) {
-      throw new Error("Failed to upload image");
-    }
-
-    const { filename } = await uploadResponse.json();
-    await createPost.mutateAsync({
-      image: filename,
-      caption,
-    });
   };
 
   const handleUpload = async () => {
-    if (!state?.selectedFile || !state.caption.trim()) return;
+    if (!state?.selectedFile || (isPost && !state.caption.trim())) return;
 
     setState((prev) => ({ ...prev, isUploading: true }));
     try {
-      await handleCreatePost(state.selectedFile, state.caption.trim());
+      const result = await onSubmit(state.selectedFile, state.caption.trim());
       clearSelection();
     } catch (err) {
+      toast.error(err instanceof Error ? err.message : "An error occurred");
       console.error("Error creating post", err);
     } finally {
       setState((prev) => ({ ...prev, isUploading: false }));
