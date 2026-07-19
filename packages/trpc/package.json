@@ -4,7 +4,7 @@
   "private": true,
   "exports": {
     "./router": "./src/server/server.ts",
-    "./schemas": "./src/server/schemas/post.schema.ts"
+    "./schemas": "./src/server/schemas/index.ts"
   },
   "peerDependencies": {
     "zod": "4.4.3",
