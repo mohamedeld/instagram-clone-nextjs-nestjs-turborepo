@@ -13,21 +13,35 @@ import { z } from "zod";
 
 const t = initTRPC.create();
 const publicProcedure = t.procedure;
-import { createPostSchema, postSchema, likePostSchema } from "./C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/./schemas/trpc.schema.js";
-import type { PostsRouter } from "./C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/posts.router.js";
+import {
+  createPostSchema,
+  postSchema,
+  likePostSchema,
+} from "C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/./schemas/trpc.schema.js";
+import type { PostsRouter } from "C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/posts.router.js";
 
 const appRouter = t.router({
   postsRouter: t.router({
     create: publicProcedure
       .input(createPostSchema)
-      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<PostsRouter["create"]>>),
+      .mutation(
+        async () =>
+          "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<
+            ReturnType<PostsRouter["create"]>
+          >,
+      ),
     finalAll: publicProcedure
       .output(z.array(postSchema))
       .query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     likePost: publicProcedure
       .input(likePostSchema)
-      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<PostsRouter["likePost"]>>)
-    })
+      .mutation(
+        async () =>
+          "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<
+            ReturnType<PostsRouter["likePost"]>
+          >,
+      ),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

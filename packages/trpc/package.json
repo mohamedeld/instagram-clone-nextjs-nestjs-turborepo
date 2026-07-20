@@ -3,8 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "exports": {
-    "./router": "./src/server/server.ts",
-    "./schemas": "./src/server/schemas/index.ts"
+    "./router": {
+      "types": "./dist/server/server.d.ts",
+      "require": "./dist/server/server.js",
+      "import": "./dist/server/server.js",
+      "default": "./src/server/server.ts"
+    },
+    "./schemas": {
+      "types": "./dist/server/schemas/index.d.ts",
+      "require": "./dist/server/schemas/index.js",
+      "import": "./dist/server/schemas/index.js",
+      "default": "./src/server/schemas/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
   },
   "peerDependencies": {
     "zod": "4.4.3",
