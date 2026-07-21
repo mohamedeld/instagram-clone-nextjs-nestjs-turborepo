@@ -8,6 +8,8 @@ import { trpc } from "@/lib/trpc/client";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { ToogleLiked } from "./ToogleLiked";
 import type { Post } from "@repo/trpc/schemas";
+import PostComments from "./post-comments";
+import { PostCommentContainer } from "./post-comment-container";
 
 export const Feed = () => {
   const posts = trpc.postsRouter.finalAll.useQuery();
@@ -54,34 +56,7 @@ export const Feed = () => {
                 <div className="w-full h-full bg-muted" />
               )}
             </div>
-            <div className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <ToogleLiked postId={post?.id} isLiked={post?.isLiked} />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {}}
-                    className="p-0 h-auto"
-                  >
-                    <MessageCircle className="size-6 text-foreground" />
-                  </Button>
-                </div>
-              </div>
-              <div className="text-sm font-semibold">{post?.likes} likes</div>
-              <div className="text-sm">
-                <span className="font-semibold">{post?.user?.username}</span>{" "}
-                {post?.caption}
-              </div>
-              {post?.comments > 0 && (
-                <div className="text-sm text-muted-foreground">
-                  View all {post?.comments} comments
-                </div>
-              )}
-              <div className="text-xs text-muted-foreground uppercase">
-                {new Date(post?.timestamp).toLocaleDateString()}
-              </div>
-            </div>
+            <PostCommentContainer post={post} />
           </Card>
         );
       })}

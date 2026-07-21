@@ -20,7 +20,7 @@ export const commentSchema = z.object({
     avatar: z.string(),
   }),
   text: z.string(),
-  timestamp: z.string(),
+  createdAt: z.string(),
 });
 
 export type Comment = z.infer<typeof commentSchema>;

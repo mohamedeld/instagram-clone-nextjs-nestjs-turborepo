@@ -13,35 +13,34 @@ import { z } from "zod";
 
 const t = initTRPC.create();
 const publicProcedure = t.procedure;
-import {
-  createPostSchema,
-  postSchema,
-  likePostSchema,
-} from "C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/./schemas/trpc.schema.js";
-import type { PostsRouter } from "C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/posts.router.js";
+import { createCommentSchema, getCommentsSchema, commentSchema, deleteComment, createPostSchema, postSchema, likePostSchema } from "@repo/trpc/schemas";
+import type { CommentsRouter } from "./C:/Users/LORD/Desktop/fotosnap/apps/backend/src/comments/comment.router.js";
+import type { PostsRouter } from "./C:/Users/LORD/Desktop/fotosnap/apps/backend/src/posts/posts.router.js";
 
 const appRouter = t.router({
+  commentsRouter: t.router({
+    createComment: publicProcedure
+      .input(createCommentSchema)
+      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<CommentsRouter["createComment"]>>),
+    getByPostId: publicProcedure
+      .input(getCommentsSchema)
+      .output(z.array(commentSchema))
+      .query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    deleteComment: publicProcedure
+      .input(deleteComment)
+      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<CommentsRouter["deleteComment"]>>)
+    }),
   postsRouter: t.router({
     create: publicProcedure
       .input(createPostSchema)
-      .mutation(
-        async () =>
-          "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<
-            ReturnType<PostsRouter["create"]>
-          >,
-      ),
+      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<PostsRouter["create"]>>),
     finalAll: publicProcedure
       .output(z.array(postSchema))
       .query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     likePost: publicProcedure
       .input(likePostSchema)
-      .mutation(
-        async () =>
-          "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<
-            ReturnType<PostsRouter["likePost"]>
-          >,
-      ),
-  }),
+      .mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as unknown as Awaited<ReturnType<PostsRouter["likePost"]>>)
+    })
 });
 
 export type AppRouter = typeof appRouter;
